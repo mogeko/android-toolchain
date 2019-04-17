@@ -1,0 +1,36 @@
+language: bash
+
+env:
+  global:
+    - NDK_VERSION=r19c
+    - TOOLCHAIN_VERSION=4.9
+    - ANDROID_API=android-27
+    - NDK_HOME=$TRAVIS_BUILD_DIR/android-ndk-$NDK_VERSION
+    - PATH=$PATH:$NDK_HOME
+  matrix:
+    - ARCH=arm TOOLCHAIN=arm-linux-androideabi-$TOOLCHAIN_VERSION
+    - ARCH=arm64 TOOLCHAIN=aarch64-linux-android-$TOOLCHAIN_VERSION
+    - ARCH=x86 TOOLCHAIN=x86-$TOOLCHAIN_VERSION
+    - ARCH=x86_64 TOOLCHAIN=x86_64-$TOOLCHAIN_VERSION
+    # - ARCH=mips TOOLCHAIN=mipsel-linux-android-$TOOLCHAIN_VERSION
+    # - ARCH=mips64 TOOLCHAIN=mipsel64-linux-android-$TOOLCHAIN_VERSION
+
+before_install:
+  - curl -LO https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip
+  - unzip -qq android-ndk-$NDK_VERSION-linux-x86_64.zip
+
+script:
+  - bash $NDK_HOME/build/tools/make-standalone-toolchain.sh --arch=$ARCH --platform=$ANDROID_API --install-dir=$TRAVIS_BUILD_DIR/android-toolchain/$ARCH --toolchain=$TOOLCHAIN
+
+before_deploy:
+  - tar czf android-toolchain-$ARCH.tgz android-toolchain/$ARCH
+
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file:
+    - "android-toolchain-$ARCH.tgz"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
