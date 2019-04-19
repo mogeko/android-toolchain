@@ -1,5 +1,10 @@
 language: bash
 
+os:
+  - linux
+  - osx
+  - windows
+
 env:
   global:
     - NDK_VERSION=r19c
@@ -16,20 +21,23 @@ env:
     - ARCH=mips64 TOOLCHAIN=mips64el-linux-android-$TOOLCHAIN_VERSION NDK_VERSION=r16b NDK_HOME=$TRAVIS_BUILD_DIR/android-ndk-$NDK_VERSION
 
 before_install:
-  - curl -LO https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip
-  - unzip -qq android-ndk-$NDK_VERSION-linux-x86_64.zip
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export OS_NAME=$TRAVIS_OS_NAME; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export OS_NAME=darwin; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then export OS_NAME=$TRAVIS_OS_NAME; fi
+  - curl -LO https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-$OS_NAME-x86_64.zip
+  - unzip -qq android-ndk-$NDK_VERSION-$OS_NAME-x86_64.zip
 
 script:
   - bash $NDK_HOME/build/tools/make-standalone-toolchain.sh --arch=$ARCH --platform=$ANDROID_API --install-dir=$TRAVIS_BUILD_DIR/android-toolchain/$ARCH --toolchain=$TOOLCHAIN
 
 before_deploy:
-  - tar czf android-toolchain-$ARCH.tgz android-toolchain/$ARCH
+  - tar czf android-toolchain-$OS_NAME-x86_64-$ARCH.tgz android-toolchain/$ARCH
 
 deploy:
   provider: releases
   api_key: $GH_TOKEN
   file:
-    - "android-toolchain-$ARCH.tgz"
+    - "android-toolchain-$OS_NAME-x86_64-$ARCH.tgz"
   skip_cleanup: true
   draft: true
   on:
