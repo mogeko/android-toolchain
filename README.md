@@ -4,8 +4,10 @@
 
 Independent cross-compilation toolchain extracted from the Android NDK.
 
-- **[Android NDK](https://developer.android.com/ndk) version:** r19c
-- **Android API level:** 27
+- **[Android NDK](https://developer.android.com/ndk) version:**
+  - **arm/arm64/x86/x86_64:** r19c
+  - **mips/mips64:** r16b
+- **Android API level:** 21
 - **android-toolchain version:** 4.9
 
 ## Usage
@@ -16,6 +18,8 @@ Independent cross-compilation toolchain extracted from the Android NDK.
 ## Download
 - [**android-toolchain-arm.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-arm.tgz)
 - [**android-toolchain-arm64.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-arm64.tgz)
+- [**android-toolchain-mips.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-mips.tgz)
+- [**android-toolchain-mips64.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-mips64.tgz)
 - [**android-toolchain-x86.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-x86.tgz)
 - [**android-toolchain-x86_64.tgz**](https://github.com/Mogeko/android-toolchain/releases/download/4.9/android-toolchain-x86_64.tgz)
  

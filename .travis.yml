@@ -4,7 +4,7 @@ env:
   global:
     - NDK_VERSION=r19c
     - TOOLCHAIN_VERSION=4.9
-    - ANDROID_API=android-27
+    - ANDROID_API=android-21
     - NDK_HOME=$TRAVIS_BUILD_DIR/android-ndk-$NDK_VERSION
     - PATH=$PATH:$NDK_HOME
   matrix:
@@ -12,8 +12,8 @@ env:
     - ARCH=arm64 TOOLCHAIN=aarch64-linux-android-$TOOLCHAIN_VERSION
     - ARCH=x86 TOOLCHAIN=x86-$TOOLCHAIN_VERSION
     - ARCH=x86_64 TOOLCHAIN=x86_64-$TOOLCHAIN_VERSION
-    # - ARCH=mips TOOLCHAIN=mipsel-linux-android-$TOOLCHAIN_VERSION
-    # - ARCH=mips64 TOOLCHAIN=mipsel64-linux-android-$TOOLCHAIN_VERSION
+    - ARCH=mips TOOLCHAIN=mipsel-linux-android-$TOOLCHAIN_VERSION NDK_VERSION=r16b NDK_HOME=$TRAVIS_BUILD_DIR/android-ndk-$NDK_VERSION
+    - ARCH=mips64 TOOLCHAIN=mips64el-linux-android-$TOOLCHAIN_VERSION NDK_VERSION=r16b NDK_HOME=$TRAVIS_BUILD_DIR/android-ndk-$NDK_VERSION
 
 before_install:
   - curl -LO https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip
